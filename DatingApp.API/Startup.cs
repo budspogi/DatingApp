@@ -67,19 +67,21 @@ namespace DatingApp.API
             //app.UseHttpsRedirection();
             
             //24-05-2020 - added salvador
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            app.UseAuthentication();
-            app.UseMvc();
 
             //24-05-2020 - salvador commented
-            //app.UseRouting();
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            
+            app.UseMvc();
 
-            //app.UseAuthorization();
+            
 
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllers();
-            }//);
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
