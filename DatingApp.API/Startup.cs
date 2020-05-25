@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DatingApp.API.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,12 +29,15 @@ namespace DatingApp.API
         {
 
             
+           // this should be in by order 25-05-2020 salvador
                
            services.AddDbContext<Data.DataContext> (x=>x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
            //services.AddDbContext<DataContextt> (x=>x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
            services.AddMvc(option => option.EnableEndpointRouting = false);
            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
            services.AddCors();
+           services.AddScoped<IAuthRepository, AuthRepository>();
+           
            //services.AddControllers();
           //MvcOptions.EnableEndpointRouting = 'false';
         }
