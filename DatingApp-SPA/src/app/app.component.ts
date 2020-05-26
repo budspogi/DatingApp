@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ValueComponent } from './value/value.component';
+
 
 @Component({
   selector: 'app-root',
