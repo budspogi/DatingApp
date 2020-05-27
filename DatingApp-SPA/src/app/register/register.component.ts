@@ -11,25 +11,17 @@ export class RegisterComponent implements OnInit {
 
   @Output() cancelRegister = new EventEmitter();
   model: any = {};
-
-  constructor(private autheService: AuthService) { }
-
+  constructor(private authService: AuthService) { }
   ngOnInit() {
   }
-
   register() {
-
-    console.log(this.model);
-    this.autheService.register(this.model).subscribe(() => {
+    this.authService.register(this.model).subscribe(() => {
       console.log('Registration Succesful');
     }, error => {
       console.log(error);
     });
   }
-
   cancel() {
     this.cancelRegister.emit(false);
-    console.log('cancelled bakit di lumilipat!');
-
   }
 }
