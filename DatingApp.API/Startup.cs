@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
+using AutoMapper;
 using DatingApp.API.Data;
 using DatingApp.API.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,13 +8,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DatingApp.API
@@ -38,12 +32,23 @@ namespace DatingApp.API
             
            // this should be in by order 25-05-2020 salvador
                
-           services.AddDbContext<Data.DataContext> (x=>x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+           services.AddDbContext<Data.DataContext> (x=>
+           x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
            //services.AddDbContext<DataContextt> (x=>x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-           services.AddMvc(option => option.EnableEndpointRouting = false);
-           services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+           services.AddControllers().AddNewtonsoftJson(opt => 
+            {
+                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            }
+
+           );
+          //  services.AddMvc(option => option.EnableEndpointRouting = false);
+        //   services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
            services.AddCors();
+           // added from lesson 78 28-05-2020
+           services.AddAutoMapper(typeof(DatingRepository).Assembly);
+           // end lesson 78
            services.AddScoped<IAuthRepository, AuthRepository>();
+           services.AddScoped<IDatingRepository,DatingRepository>();
            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
                AddJwtBearer(options => {
                    options.TokenValidationParameters=new TokenValidationParameters 
@@ -92,7 +97,7 @@ namespace DatingApp.API
             app.UseAuthorization();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             
-            app.UseMvc();
+           //  app.UseMvc();
 
             
 

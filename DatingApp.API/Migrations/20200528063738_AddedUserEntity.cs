@@ -7,10 +7,6 @@ namespace DatingApp.API.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            
-            migrationBuilder.DropTable(
-                name: "Users");
-            
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -31,11 +27,6 @@ namespace DatingApp.API.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Users");
-
-           
-        
         }
-
-
     }
 }
