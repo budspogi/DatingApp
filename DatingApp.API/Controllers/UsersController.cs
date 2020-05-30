@@ -29,7 +29,7 @@ namespace DatingApp.API.Controllers
             var users = await _repo.GetUsers();
             //  lesson 78 28-05-2020
             var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
-            return Ok(users);
+            return Ok(usersToReturn);
             //  end lesson 78
            
 

@@ -4,6 +4,8 @@ namespace DatingApp.API.Dtos
 {
     public class UserForListDto
     {
+      //  internal object photoUrl;
+
         public int Id { get; set;}
 
         public string Username {get; set;}
