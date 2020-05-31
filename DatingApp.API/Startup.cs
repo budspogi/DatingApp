@@ -44,7 +44,8 @@ namespace DatingApp.API
           //  services.AddMvc(option => option.EnableEndpointRouting = false);
         //   services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
            services.AddCors();
-           // added from lesson 78 28-05-2020
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+             // added from lesson 78 28-05-2020
            services.AddAutoMapper(typeof(DatingRepository).Assembly);
            // end lesson 78
            services.AddScoped<IAuthRepository, AuthRepository>();

@@ -12,11 +12,13 @@ import { Router } from '@angular/router';
 })
 export class NavComponent implements OnInit {
   model: any = {};
-
+  photoUrl: string; // use for behavioural side pic
 
   constructor(public authService: AuthService, private alertify: AlertifyService, private router: Router) { }
 
   ngOnInit() {
+
+    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
   login() {
     this.authService.login(this.model).subscribe(next => {
@@ -35,6 +37,9 @@ export class NavComponent implements OnInit {
 
   logout() {
      localStorage.removeItem('token');
+     localStorage.removeItem('user'); // use for phot username
+     this.authService.decodedToken = null;  // use for phot username
+     this.authService.currentUser = null;  // use for phot username
      this.alertify.message('Logged Out');
      this.router.navigate(['home']);
 
