@@ -34,5 +34,8 @@ namespace DatingApp.API.Models
         public string Country  {get; set;}
 
         public ICollection<Photo> Photos  {get; set;}
+
+        public virtual ICollection<Like> Likers { get; set; }
+        public virtual ICollection<Like> Likees { get; set; }
     }
 }
