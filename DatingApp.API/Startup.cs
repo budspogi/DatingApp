@@ -26,14 +26,45 @@ namespace DatingApp.API
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+          //  services.AddDbContext<Data.DataContext> (x=>
+          // x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+           
+            services.AddDbContext<DataContext>(x => 
+            {
+                x.UseLazyLoadingProxies();
+                x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+            });
+                
+            ConfigureServices(services);
+        }
+
+        public void ConfigureProductionServices(IServiceCollection services)
+        {
+
+           // services.AddDbContext<Data.DataContext> (x=>
+           //x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+           //  x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddDbContext<DataContext>(x => 
+            {
+                x.UseLazyLoadingProxies();
+                x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+           });
+
+            ConfigureServices(services);
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
 
-            
+
+
            // this should be in by order 25-05-2020 salvador
                
-           services.AddDbContext<Data.DataContext> (x=>
-           x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+         //  services.AddDbContext<Data.DataContext> (x=>
+         //  x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
            //services.AddDbContext<DataContextt> (x=>x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
            services.AddControllers().AddNewtonsoftJson(opt => 
             {
@@ -98,6 +129,9 @@ namespace DatingApp.API
             app.UseAuthorization();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
            //  app.UseMvc();
 
             
@@ -105,6 +139,7 @@ namespace DatingApp.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToController("Index","Fallback");
             });
         }
     }
